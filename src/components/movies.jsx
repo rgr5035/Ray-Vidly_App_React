@@ -13,7 +13,7 @@ class Movies extends Component {
     genres: [],
     currentPage: 1,
     pageSize: 4,
-    sortColumn: { path: 'title', order: "asc"}
+    sortColumn: { path: "title", order: "asc" },
   };
 
   componentDidMount() {
@@ -45,8 +45,9 @@ class Movies extends Component {
     this.setState({ selectedGenre: genre, currentPage: 1 });
   };
 
-  handleSort = (path) => {
-    this.setState({ sortColumn: { path, order: "asc" } });
+  handleSort = (sortColumn) => {
+    
+    this.setState({ sortColumn });
   };
 
   render() {
@@ -69,7 +70,7 @@ class Movies extends Component {
         ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
         : allMovies;
 
-    const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order])
+    const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
 
     const movies = paginate(sorted, currentPage, pageSize);
 
@@ -86,6 +87,7 @@ class Movies extends Component {
           <h5> Showing {filtered.length} movies in the database</h5>
           <MoviesTable
             movies={movies}
+            sortColumn={sortColumn}
             onLike={this.handleLike}
             onDelete={this.handleDelete}
             onSort={this.handleSort}
